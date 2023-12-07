@@ -83,15 +83,6 @@ class Home extends StatelessWidget {
                 ),
               ),
             ),
-            Center(
-              child: Text(
-                "Made by Anjas & Chris",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
           ],
         ),
       ),
