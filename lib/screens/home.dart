@@ -1,3 +1,4 @@
+import 'package:aplikasi_kuis/formRegisLogin/Login.dart';
 import 'package:aplikasi_kuis/screens/crud_screen.dart';
 import 'package:aplikasi_kuis/screens/pilihkuis_screen.dart';
 import 'package:aplikasi_kuis/screens/profil_screen.dart';
@@ -185,9 +186,17 @@ class Home extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.logout),
               title: Text('Logout'),
-              onTap: () {
-                Navigator.pop(context);
-                FirebaseAuth.instance.signOut();
+              onTap: () async {
+                Navigator.pop(context); // Tutup drawer terlebih dahulu
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(
+                  // Gunakan pushReplacement agar tidak bisa kembali ke halaman sebelumnya
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        Login(), // Ganti dengan halaman login atau halaman lain yang diinginkan
+                  ),
+                );
               },
             ),
           ],

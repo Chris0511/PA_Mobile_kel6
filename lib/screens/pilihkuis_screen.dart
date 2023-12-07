@@ -133,82 +133,77 @@ class _PilihKuisScreenState extends State<PilihKuisScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: FutureBuilder(
-          future: _fetchQuizzes(), // Call _fetchQuizzes function here
-          builder: (context, snapshot) {
-            if (isLoading) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        selectedQuizzes = _getRandomQuizzes();
-                      });
-                    },
-                    child: Text('Pilih Acak'),
-                  ),
-                  SizedBox(height: 16),
-                  Text(
-                    'Pilih Kuis yang Ingin Dikerjakan:',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 16),
-                  TextField(
-                    controller: _searchController,
-                    onChanged: _filterQuizzes,
-                    decoration: InputDecoration(
-                      labelText: 'Cari Kuis',
-                      suffixIcon: IconButton(
-                        icon: Icon(Icons.clear),
-                        onPressed: () {
-                          _searchController.clear();
-                          _filterQuizzes('');
-                        },
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  if (filteredQuizzes.isNotEmpty)
-                    Expanded(
-                      child: ListView(
-                        children: filteredQuizzes
-                            .map(
-                              (quizData) => Container(
-                                margin: EdgeInsets.symmetric(vertical: 8.0),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: isQuizSelected(quizData)
-                                        ? Theme.of(context).primaryColor
-                                        : Colors.black,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                child: ListTile(
-                                  title: Text(quizData['pertanyaan']),
-                                  subtitle:
-                                      Text('Kategori: ${quizData['kategori']}'),
-                                  onTap: () {
-                                    _onQuizTap(quizData);
-                                  },
-                                ),
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    )
-                  else
-                    Text('Belum ada kuis yang tersedia.'),
-                  SizedBox(height: 16),
-                ],
-              );
-            }
-          },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  selectedQuizzes = _getRandomQuizzes();
+                });
+              },
+              child: Text('Pilih Acak'),
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Pilih Kuis yang Ingin Dikerjakan:',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _searchController,
+              onChanged: _filterQuizzes,
+              decoration: InputDecoration(
+                labelText: 'Cari Kuis',
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () {
+                    _searchController.clear();
+                    _filterQuizzes('');
+                  },
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            if (isLoading)
+              Center(
+                child: CircularProgressIndicator(),
+              )
+            else if (filteredQuizzes.isNotEmpty)
+              Expanded(
+                child: ListView(
+                  children: filteredQuizzes
+                      .map(
+                        (quizData) => Container(
+                          margin: EdgeInsets.symmetric(vertical: 8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: isQuizSelected(quizData)
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.black,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: ListTile(
+                            title: Text(quizData['pertanyaan']),
+                            subtitle:
+                                Text('Kategori: ${quizData['kategori']}'),
+                            onTap: () {
+                              _onQuizTap(quizData);
+                            },
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              )
+            else
+              Center(
+                child: Text('Belum ada kuis yang tersedia.'),
+              ),
+            SizedBox(height: 16),
+          ],
         ),
       ),
       persistentFooterButtons: [
