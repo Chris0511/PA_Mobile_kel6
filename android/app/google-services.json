@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "117958811951",
+    "project_id": "aplikasikuis-d1581",
+    "storage_bucket": "aplikasikuis-d1581.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117958811951:android:30d79d52a5ee59e24a01da",
+        "android_client_info": {
+          "package_name": "com.example.aplikasi_kuis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXhhFqigjVOo1F-tIJTKTLq5M_FqCjODo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117958811951:android:1a8d2250ac371ed14a01da",
+        "android_client_info": {
+          "package_name": "com.example.quizz_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXhhFqigjVOo1F-tIJTKTLq5M_FqCjODo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
