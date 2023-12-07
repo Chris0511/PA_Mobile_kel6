@@ -1,4 +1,5 @@
 import 'package:aplikasi_kuis/screens/kuis_screen.dart';
+import 'package:aplikasi_kuis/ui/shared/color.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -126,6 +127,7 @@ class _PilihKuisScreenState extends State<PilihKuisScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.primaryColor,
       appBar: AppBar(
         title: Text('Pilih Kuis'),
       ),

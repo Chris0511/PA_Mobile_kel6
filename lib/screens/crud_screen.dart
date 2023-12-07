@@ -92,23 +92,25 @@ class _CrudScreenState extends State<CrudScreen> {
         });
       }
 
+      // Refresh the quizzes data after a successful update or addition
+      await _readQuizzes();
+
       showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Success'),
-            content: Text('Berhasil simpan kuis.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Success'),
+              content: Text('Berhasil simpan kuis.'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          });
 
       pertanyaanController.clear();
       option1Controller.clear();

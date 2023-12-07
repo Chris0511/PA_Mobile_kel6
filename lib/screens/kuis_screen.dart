@@ -1,3 +1,4 @@
+import 'package:aplikasi_kuis/ui/shared/color.dart';
 import 'package:flutter/material.dart';
 import 'hasilkuis_screen.dart';
 
@@ -11,7 +12,7 @@ class KuisScreen extends StatefulWidget {
 }
 
 class _KuisScreenState extends State<KuisScreen> {
-  int selectedOption = -1; // Initialize with an invalid value
+  int selectedOption = -1;
   int currentQuizIndex = 0;
   bool isAnswerSubmitted = false;
   int totalScore = 0;
@@ -23,99 +24,93 @@ class _KuisScreenState extends State<KuisScreen> {
         currentQuizIndex == widget.selectedQuizzes.length - 1;
 
     return Scaffold(
+      backgroundColor: AppColor.secondaryColor,
       appBar: AppBar(
         title: Text('Kuis'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Display current question number and poin
-            Row(
-              children: [
-                Text(
-                  'Kuis ${currentQuizIndex + 1}/${widget.selectedQuizzes.length}',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                SizedBox(width: 8.0),
-                Spacer(),
-                Text(
-                  'Poin: $totalScore',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            SizedBox(height: 8.0),
-            Text(
-              '${quizData['pertanyaan']}',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8.0),
-
-            // Display radio buttons for options
-            Column(
-              children: [
-                for (int i = 1; i <= 4; i++)
-                  RadioListTile(
-                    title:
-                        Text('$i: ${quizData['option$i'] as String}'),
-                    value: i,
-                    groupValue: selectedOption,
-                    onChanged: isAnswerSubmitted
-                        ? null
-                        : (value) {
-                            setState(() {
-                              selectedOption = value as int;
-                            });
-                          },
+      body: Container(
+        decoration: BoxDecoration(
+          color: AppColor.primaryColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'Kuis ${currentQuizIndex + 1}/${widget.selectedQuizzes.length}',
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-              ],
-            ),
-            SizedBox(height: 16.0),
-
-            // Display buttons in a Row
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle answer button click
-                    if (selectedOption != -1 && !isAnswerSubmitted) {
-                      _checkAnswer(quizData['jawaban_benar'] as int, context);
-                    }
-                  },
-                  child: Text('Jawab'),
-                ),
-                if (!isLastQuestion)
-                  Spacer(), // Add Spacer to create space between buttons
-                if (!isLastQuestion)
+                  SizedBox(width: 8.0),
+                  Spacer(),
+                  Text(
+                    'Poin: $totalScore',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              SizedBox(height: 8.0),
+              Text(
+                '${quizData['pertanyaan']}',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8.0),
+              Column(
+                children: [
+                  for (int i = 1; i <= 4; i++)
+                    RadioListTile(
+                      title: Text('$i: ${quizData['option$i'] as String}'),
+                      value: i,
+                      groupValue: selectedOption,
+                      onChanged: isAnswerSubmitted
+                          ? null
+                          : (value) {
+                              setState(() {
+                                selectedOption = value as int;
+                              });
+                            },
+                    ),
+                ],
+              ),
+              SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                   ElevatedButton(
                     onPressed: () {
-                      // Handle next button click
-                      if (isAnswerSubmitted) {
-                        setState(() {
-                          currentQuizIndex++;
-                          selectedOption =
-                              -1; // Reset selected option for the next quiz
-                          isAnswerSubmitted =
-                              false; // Reset answer submission status
-                        });
+                      if (selectedOption != -1 && !isAnswerSubmitted) {
+                        _checkAnswer(quizData['jawaban_benar'] as int, context);
                       }
                     },
-                    child: Text('Next'),
+                    child: Text('Jawab'),
                   ),
-                if (isLastQuestion && isAnswerSubmitted)
-                  ElevatedButton(
-                    onPressed: () {
-                      // Navigate to HasilKuisScreen
-                      _navigateToHasilKuisScreen(context);
-                    },
-                    child: Text('Lihat Hasil'),
-                  ),
-              ],
-            ),
-          ],
+                  if (!isLastQuestion) Spacer(),
+                  if (!isLastQuestion)
+                    ElevatedButton(
+                      onPressed: () {
+                        if (isAnswerSubmitted) {
+                          setState(() {
+                            currentQuizIndex++;
+                            selectedOption = -1;
+                            isAnswerSubmitted = false;
+                          });
+                        }
+                      },
+                      child: Text('Next'),
+                    ),
+                  if (isLastQuestion && isAnswerSubmitted)
+                    ElevatedButton(
+                      onPressed: () {
+                        _navigateToHasilKuisScreen(context);
+                      },
+                      child: Text('Lihat Hasil'),
+                    ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -126,17 +121,14 @@ class _KuisScreenState extends State<KuisScreen> {
       _showAnswerNotification(context, 'Jawaban Benar! Poin +10', Colors.green);
       setState(() {
         totalScore += 10;
-        // Store user's answer in the selected question
         widget.selectedQuizzes[currentQuizIndex]['user_answer'] =
             selectedOption;
       });
     } else {
       _showAnswerNotification(context, 'Jawaban Salah! Poin +0', Colors.red);
-      // Store user's answer in the selected question
       widget.selectedQuizzes[currentQuizIndex]['user_answer'] = selectedOption;
     }
 
-    // Mark answer as submitted
     setState(() {
       isAnswerSubmitted = true;
     });
